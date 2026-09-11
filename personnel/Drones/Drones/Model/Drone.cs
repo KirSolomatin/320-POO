@@ -17,8 +17,8 @@ namespace Drones
         public string Name { get => _name; }
         public int X { get => _x; private set => _x = value; }
         public int Y { get => _y; private set => _y = value; }
-        public int xTarget { get => _targetX; private set => _targetX = value; }
-        public int yTarget { get => _targetY; private set => _targetY = value; }
+        public int TargetX { get => _targetX; private set => _targetX = value; }
+        public int TargetY { get => _targetY; private set => _targetY = value; }
 
 
         // Constructeur
@@ -27,8 +27,8 @@ namespace Drones
             this.X = x;
             this.Y = y;
             this._name = name;
-            this.xTarget = xTarget;
-            this.yTarget = yTarget;
+            this.TargetX = xTarget;
+            this.TargetY = yTarget;
             Charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
         }
 
@@ -42,10 +42,13 @@ namespace Drones
             //Random alea = new Random();
             //X += 2;                                    // Il s'est déplacé de 2 pixels vers la droite
             //Y += alea.Next(-2, 3);                     // Il s'est déplacé d'une valeur aléatoire vers le haut ou le bas
-            //Charge--;                                  // Il a dépensé de l'énergie
-            double deltaX = _targetX - _x;
-            double deltaY = _targetY - _y;
-
+            double deltaX = TargetX - X;
+            double deltaY = TargetY - Y;
+            if (deltaX > 0) X += Config.SPEED;
+            else X -= Config.SPEED;
+            if (deltaY > 0) Y += Config.SPEED;
+            else Y -= Config.SPEED;
+            Charge--;                                  // Il a dépensé de l'énergie
         }
 
         #endregion
