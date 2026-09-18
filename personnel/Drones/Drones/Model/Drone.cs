@@ -24,7 +24,7 @@ namespace Drones.Model
             _x = x;
             _y = y;
             _name = name;
-            _charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
+            _charge = RandomHelper.GenerateNumber(20, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
             this.state = State.ROAMING;
 
             // Le drone se fixe un objectif aléatoire quelque part dans l'espace aérien
@@ -40,6 +40,10 @@ namespace Drones.Model
         {
             if (_charge <= 0) return;                     // S'il n'a plus de charge, il ne peut plus bouger
 
+            if (_charge < 10)
+            {
+                state = State.LOW_BATTERY;
+            }
             double distance = MathHelpers.Distance(_x, _y, _targetX, _targetY);
 
             // Déplacement le long du vecteur unitaire vers l'objectif, à la vitesse du drone

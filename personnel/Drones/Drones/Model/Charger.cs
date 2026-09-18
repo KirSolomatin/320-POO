@@ -11,8 +11,8 @@ namespace Drones.Model
 {
     public class Charger
     {
-        private int _x = Config.AIRSPACE_WIDTH/2;
-        private int _y = Config.AIRSPACE_HEIGHT/2;
+        static int _x { get; set; } = Config.AIRSPACE_WIDTH / 2;
+        private static int _y = Config.AIRSPACE_HEIGHT/2;
         private int _width = 50;
         private int _height = 50;
 
