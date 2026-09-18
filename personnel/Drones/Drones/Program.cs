@@ -1,3 +1,5 @@
+using Drones.Model;
+
 namespace Drones
 {
     internal static class Program
@@ -14,10 +16,11 @@ namespace Drones
 
             // Création de la flotte de drones
             List<Drone> fleet= new List<Drone>();
+            Charger charger = new Charger();
             fleet.Add(new Drone(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH/2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT/2)));
 
             // Démarrage
-            Application.Run(new AirSpace(fleet));
+            Application.Run(new AirSpace(fleet, charger));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Drones.Helpers;
 using Drones.Properties;
 
-namespace Drones
+namespace Drones.Model
 {
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
     public partial class Drone
@@ -24,7 +24,7 @@ namespace Drones
             _x = x;
             _y = y;
             _name = name;
-            _charge = 100000;//RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
+            _charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
             this.state = State.ROAMING;
 
             // Le drone se fixe un objectif aléatoire quelque part dans l'espace aérien
@@ -51,6 +51,7 @@ namespace Drones
 
             if (distance <= Config.SPEED * interval / 1000)                 // L'objectif est atteint (ou tout proche)
             {
+                //Choisi un nouvel objectif
                 _targetX = RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH);
                 _targetY = RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT);
             }
