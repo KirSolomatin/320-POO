@@ -24,12 +24,14 @@ namespace Drones
         // Constructeur
         public Drone(int x, int y, string name, int xTarget, int yTarget)
         {
-            this.X = x;
-            this.Y = y;
-            this._name = name;
-            this.TargetX = xTarget;
-            this.TargetY = yTarget;
-            Charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
+            _x = x;
+            _y = y;
+            _name = name;
+            _charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
+
+            // Le drone se fixe un objectif aléatoire quelque part dans l'espace aérien
+            _targetX = RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH);
+            _targetY = RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT);
         }
 
         #region ================ Modelisation du drone et de son comportement ================
@@ -38,17 +40,23 @@ namespace Drones
         // que 'interval' millisecondes se sont écoulées
         public void Update(int interval)
         {
-            if (Charge <= 0) return;                     // S'il n'a plus de charge, il ne peut plus bouger
-            //Random alea = new Random();
-            //X += 2;                                    // Il s'est déplacé de 2 pixels vers la droite
-            //Y += alea.Next(-2, 3);                     // Il s'est déplacé d'une valeur aléatoire vers le haut ou le bas
-            double deltaX = TargetX - X;
-            double deltaY = TargetY - Y;
-            if (deltaX > 0) X += Config.SPEED;
-            else X -= Config.SPEED;
-            if (deltaY > 0) Y += Config.SPEED;
-            else Y -= Config.SPEED;
-            Charge--;                                  // Il a dépensé de l'énergie
+            if (_charge <= 0) return;                     // S'il n'a plus de charge, il ne peut plus bouger
+
+            double distance = MathHelpers.Distance(_x, _y, _targetX, _targetY);
+
+            if (distance <= Config.SPEED * interval / 1000)                 // L'objectif est atteint (ou tout proche)
+            {
+                _x = _targetX;
+                _y = _targetY;
+                return;                                   // Le drone s'immobilise
+            }
+
+            // Déplacement le long du vecteur unitaire vers l'objectif, à la vitesse du drone
+            double dx = _targetX - _x;
+            double dy = _targetY - _y;
+            _x += (int)(dx / distance * Config.SPEED * interval / 1000);
+            _y += (int)(dy / distance * Config.SPEED * interval / 1000);
+            _charge--;                                    // Il a dépensé de l'énergie
         }
 
         #endregion
