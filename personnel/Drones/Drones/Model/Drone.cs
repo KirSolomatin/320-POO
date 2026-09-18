@@ -12,7 +12,9 @@ namespace Drones
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
         private int _targetX;                           // Le point X où le drone se dirige
         private int _targetY;                          // Le point Y où le drone se dirige
+        private State state;
 
+        enum State { CRASH, LOW_BATTERY, LOADING, ROAMING };
         public int Charge { get => _charge; private set => _charge = value; }
         public string Name { get => _name; }
         public int X { get => _x; private set => _x = value; }
@@ -28,6 +30,7 @@ namespace Drones
             _y = y;
             _name = name;
             _charge = RandomHelper.GenerateNumber(0, Config.MAX_LOAD); // La charge initiale de la batterie est choisie aléatoirement
+            this.state = State.ROAMING;
 
             // Le drone se fixe un objectif aléatoire quelque part dans l'espace aérien
             _targetX = RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH);
