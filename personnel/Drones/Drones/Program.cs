@@ -18,6 +18,8 @@ namespace Drones
             List<Drone> fleet= new List<Drone>();
             Charger charger = new Charger();
             fleet.Add(new Drone(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH/2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT/2)));
+            fleet.Add(new Drone(AirSpace.WIDTH / 3, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH / 2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT / 2)));
+            fleet.Add(new Drone(AirSpace.WIDTH / 4, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH / 2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT / 2)));
 
             // Démarrage
             Application.Run(new AirSpace(fleet, charger));
