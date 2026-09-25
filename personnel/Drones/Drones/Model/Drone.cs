@@ -40,25 +40,51 @@ namespace Drones.Model
         {
             if (_charge <= 0) return;                     // S'il n'a plus de charge, il ne peut plus bouger
 
-            if (_charge < 10)
+            if (_charge < 50)                           //Si le charge est bas
             {
+                //On change l'etat du drone
                 state = State.LOW_BATTERY;
+
+                //On change l'objectif du drone à la borne de recharge
+                _targetX = Charger.xPosition;
+                _targetY = Charger.yPosition;
             }
             double distance = MathHelpers.Distance(_x, _y, _targetX, _targetY);
 
-            // Déplacement le long du vecteur unitaire vers l'objectif, à la vitesse du drone
-            double dx = _targetX - _x;
-            double dy = _targetY - _y;
-            _x += (int)(dx / distance * Config.SPEED * interval / 1000);
-            _y += (int)(dy / distance * Config.SPEED * interval / 1000);
-            _charge--;                                    // Il a dépensé de l'énergie
-
-            if (distance <= Config.SPEED * interval / 1000)                 // L'objectif est atteint (ou tout proche)
+            if (distance <= Config.speed * interval / 1000)                 // L'objectif est atteint (ou tout proche)
             {
+                if (state == State.LOW_BATTERY) // La borne est atteint
+                {
+                    //Drone s'arrête
+                    _x = Charger.xPosition;
+                    _y = Charger.yPosition;
+                    Config.speed = 0;
+
+                    state = State.LOADING;               //On change l'etat du drone
+                    while (_charge <= Config.MAX_LOAD - 2)
+                    {
+                        //Drone se charge
+                        _charge += 2;
+                        state = State.ROAMING;          //On change l'etat du drone
+                    }
+
+                    _charge = Config.MAX_LOAD;
+                }
+
                 //Choisi un nouvel objectif
                 _targetX = RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH);
                 _targetY = RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT);
             }
+            else
+            {
+                // Déplacement le long du vecteur unitaire vers l'objectif, à la vitesse du drone
+                double dx = _targetX - _x;
+                double dy = _targetY - _y;
+                _x += (int)(dx / distance * Config.speed * interval / 1000);
+                _y += (int)(dy / distance * Config.speed * interval / 1000);
+                _charge--;                                    // Il a dépensé de l'énergie
+            }
+
         }
 
         #endregion

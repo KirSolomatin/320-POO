@@ -11,15 +11,15 @@ namespace Drones.Model
 {
     public class Charger
     {
-        static int _x { get; set; } = Config.AIRSPACE_WIDTH / 2;
-        private static int _y = Config.AIRSPACE_HEIGHT/2;
+        public static int xPosition { get; private set; } = Config.AIRSPACE_WIDTH / 2;
+        public static int yPosition { get; private set; } = Config.AIRSPACE_HEIGHT/2;
         private int _width = 50;
         private int _height = 50;
 
         Pen blackPen = new Pen(Color.Black, 3);
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawEllipse(blackPen, _x, _y, _width, _height);
+            drawingSpace.Graphics.DrawEllipse(blackPen, xPosition, yPosition, _width, _height);
         }
     }
 }
