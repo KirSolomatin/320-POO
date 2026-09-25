@@ -16,6 +16,13 @@ Pour remédier à ce problème :
   1. on ne peut pas déposer un client sur une pizzeria
   2. deux clients doivent être à une distance minimale de 5 fois leur largeur
 - Modifier les deux méthodes RegisterPizzeria pour s'assurer également que ni une pizzeria, ni un client ne se trouve à l'emplacement de la borne de recharge
+- Ecrivez des tests unitaires qui vérifient tous les cas de figure:
+  - Deux pizzerias trop proches
+  - Deux clients trop proches
+  - Un client sur une pizzeria
+  - Une pizzeria sur un client
+  - Une pizzeria sur la borne de recharge
+  - Un client sur la borne de recharge
 
 Mais comment fait-on pour savoir si il y a une collision ?  
 Heureusement, .NET nous fournit des outils bien pratiques. Regardons les trois rectangles ci-dessous.
