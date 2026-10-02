@@ -14,6 +14,7 @@ namespace Drones
         private BufferedGraphics _airspace;
 
         public static List<Pizzeria> Pizzerias = new List<Pizzeria>();
+        public static List<Customer> Customers = new List<Customer>();
 
         Pizzeria pizzeria1 = new Pizzeria("Pizzeria1", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
         Pizzeria pizzeria2 = new Pizzeria("Pizzeria2", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
@@ -34,6 +35,9 @@ namespace Drones
             _charger = charger;
 
             Pizzerias = Pizzeria.pizzerias;
+
+            Customer.GenerateClients(20);
+            Customers = Customer.customers;
         }
 
         // Affichage de la situation actuelle
@@ -52,6 +56,11 @@ namespace Drones
             foreach (Pizzeria pizzeria in Pizzerias)
             {
                 pizzeria.Render(_airspace);
+            }
+
+            foreach (Customer customer in Customers)
+            {
+                customer.Render(_airspace);
             }
 
             _airspace.Render();

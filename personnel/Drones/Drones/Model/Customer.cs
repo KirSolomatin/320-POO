@@ -1,37 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Drones
 {
-    public class Pizzeria
+    public class Customer
     {
-        //Le nom de pizzeria
+        //Le nom de client
         public string name { get; private set; }
 
         //Les coordonnées 
         public int posX { get; private set; }
         public int posY { get; private set; }
-        static public List<Pizzeria> pizzerias = new List<Pizzeria>();
 
-        private const int SIZE = 50;
+        static public List<Customer> customers = new List<Customer>();
 
-        private static Brush _pizzeriaBrush = new SolidBrush(Color.Gray);
+        private const int SIZE = 10;
+
+        private static Brush _pizzeriaBrush = new SolidBrush(Color.Green);
 
 
-        public Pizzeria (string name, int posX, int posY)
+        public Customer(string name, int posX, int posY)
         {
             this.name = name;
             this.posX = posX;
             this.posY = posY;
 
-            pizzerias.Add(this);
+            customers.Add(this);
         }
 
-        //Affiche une pizzeria et son nom en-desous
+        public static void GenerateClients(int numberOfClients)
+        {
+            for (int i = 0; i < numberOfClients; i++)
+            {
+                Customer client = new Customer($"Client {i}", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+            }
+        }
+
+        //Affiche un client et son nom en-desous
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.FillRectangle(_pizzeriaBrush, posX - SIZE / 2, posY - SIZE / 2, SIZE, SIZE);
