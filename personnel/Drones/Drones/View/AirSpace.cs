@@ -13,10 +13,13 @@ namespace Drones
         private BufferedGraphicsContext _currentContext;
         private BufferedGraphics _airspace;
 
-        private static Wind _turbulence = null;
+        public static List<Pizzeria> Pizzerias = new List<Pizzeria>();
 
-        // TODO 04: Déclarer et initialiser la propriété statique 'Turbulence', de type Wind
-
+        Pizzeria pizzeria1 = new Pizzeria("Pizzeria1", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+        Pizzeria pizzeria2 = new Pizzeria("Pizzeria2", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+        Pizzeria pizzeria3 = new Pizzeria("Pizzeria3", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+        Pizzeria pizzeria4 = new Pizzeria("Pizzeria4", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+        Pizzeria pizzeria5 = new Pizzeria("Pizzeria5", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
         // Initialisation de l'espace a�rien avec un certain nombre de drones
         public AirSpace(List<Drone> fleet, Charger charger)
         {
@@ -29,6 +32,8 @@ namespace Drones
             _airspace = _currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             _fleet = fleet;
             _charger = charger;
+
+            Pizzerias = Pizzeria.pizzerias;
         }
 
         // Affichage de la situation actuelle
@@ -44,9 +49,10 @@ namespace Drones
                 drone.Render(_airspace);
             }
 
-            // draw turbulence zone
-            // TODO 05: Corriger ce code pour afficher correctement la zone
-            _airspace.Graphics.DrawRectangle(new Pen(Color.Orange), 0,0,0,0);
+            foreach (Pizzeria pizzeria in Pizzerias)
+            {
+                pizzeria.Render(_airspace);
+            }
 
             _airspace.Render();
         }
