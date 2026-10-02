@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Drones
 {
-    internal class Pizzeria
+    public class Pizzeria
     {
+        public string name { get; private set; }
+        public int posX { get; private set; }
+        public int posY { get; private set; }
     }
 }
