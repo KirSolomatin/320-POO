@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Drones.Helpers
+namespace Drones
 {
     // Outils pour des calculs mathématiques
-    internal class MathHelpers
+    internal static class MathHelpers
     {
         // Distance euclidienne entre les points (x1, y1) et (x2, y2)
         public static double Distance(double x1, double y1, double x2, double y2)

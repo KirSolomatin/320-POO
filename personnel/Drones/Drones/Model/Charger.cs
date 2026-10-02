@@ -1,25 +1,27 @@
-﻿using Drones.Helpers;
-using Drones.Properties;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Drones.Model
+namespace Drones
 {
+    // La borne de recharge à laquelle les drones viennent se ressourcer
     public class Charger
     {
-        public static int xPosition { get; private set; } = Config.AIRSPACE_WIDTH / 2;
-        public static int yPosition { get; private set; } = Config.AIRSPACE_HEIGHT/2;
-        private int _width = 50;
-        private int _height = 50;
+        private const int SIZE = 20;                  // Diamètre de la borne, en pixels
+        private static readonly Pen _chargerBrush = new Pen(new SolidBrush(Color.Green), 3);
 
-        Pen blackPen = new Pen(Color.Black, 3);
+        private int _x;                                // Position en X depuis la gauche de l'espace aérien
+        private int _y;                                // Position en Y depuis le haut de l'espace aérien
+
+        public int X => _x;
+        public int Y => _y;
+
+        public Charger(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
+
+        // De manière graphique : un rond de 20 pixels de diamètre
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawEllipse(blackPen, xPosition, yPosition, _width, _height);
+            drawingSpace.Graphics.DrawEllipse(_chargerBrush, _x - SIZE / 2, _y - SIZE / 2, SIZE, SIZE);
         }
     }
 }

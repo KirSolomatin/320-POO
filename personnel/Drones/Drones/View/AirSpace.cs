@@ -1,61 +1,66 @@
-using Drones.Model;
-
 namespace Drones
 {
-    // La classe AirSpace représente le territoire au dessus duquel les drones peuvent voler
-    // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
+    // La classe AirSpace reprï¿½sente le territoire au dessus duquel les drones peuvent voler
+    // Il s'agit d'un formulaire (une fenï¿½tre) qui montre une vue 2D depuis en dessus
     // Il n'y a donc pas de notion d'altitude qui intervient
 
     public partial class AirSpace : Form
     {
-        public static readonly int WIDTH = Config.AIRSPACE_WIDTH;        // Dimensions of the airspace
-        public static readonly int HEIGHT = Config.AIRSPACE_HEIGHT;
+        // La flotte est l'ensemble des drones qui ï¿½voluent dans notre espace aï¿½rien
+        private List<Drone> _fleet;
+        private Charger _charger;
 
-        // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
-        private List<Drone> fleet;
-        private Charger charger;
+        private BufferedGraphicsContext _currentContext;
+        private BufferedGraphics _airspace;
 
-        BufferedGraphicsContext currentContext;
-        BufferedGraphics airspace;
+        private static Wind _turbulence = null;
 
-        // Initialisation de l'espace aérien avec un certain nombre de drones
+        // TODO 04: DÃ©clarer et initialiser la propriÃ©tÃ© statique 'Turbulence', de type Wind
+
+        // Initialisation de l'espace aï¿½rien avec un certain nombre de drones
         public AirSpace(List<Drone> fleet, Charger charger)
         {
             InitializeComponent();
+            this.ClientSize = new Size(Config.AIRSPACE_WIDTH, Config.AIRSPACE_HEIGHT);
             // Gets a reference to the current BufferedGraphicsContext
-            currentContext = BufferedGraphicsManager.Current;
+            _currentContext = BufferedGraphicsManager.Current;
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
-            airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
-            this.fleet = fleet;
-            this.charger = charger;
+            _airspace = _currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
+            _fleet = fleet;
+            _charger = charger;
         }
 
         // Affichage de la situation actuelle
         private void Render()
         {
-            airspace.Graphics.Clear(Color.AliceBlue);
+            _airspace.Graphics.Clear(Color.AliceBlue);
+
+            _charger.Render(_airspace);
 
             // draw drones
-            foreach (Drone drone in fleet)
+            foreach (Drone drone in _fleet)
             {
-                drone.Render(airspace);
+                drone.Render(_airspace);
             }
 
-            charger.Render(airspace);
-            airspace.Render();
+            // draw turbulence zone
+            // TODO 05: Corriger ce code pour afficher correctement la zone
+            _airspace.Graphics.DrawRectangle(new Pen(Color.Orange), 0,0,0,0);
+
+            _airspace.Render();
         }
 
-        // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
+        // Calcul du nouvel ï¿½tat aprï¿½s que 'interval' millisecondes se sont ï¿½coulï¿½es
         private void Update(int interval)
         {
-            foreach (Drone drone in fleet)
+            foreach (Drone drone in _fleet)
             {
                 drone.Update(interval);
             }
         }
 
-        // Méthode appelée à chaque frame
+        // Mï¿½thode appelï¿½e ï¿½ chaque frame
         private void NewFrame(object sender, EventArgs e)
         {
             this.Update(ticker.Interval);

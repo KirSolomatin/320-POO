@@ -1,5 +1,3 @@
-using Drones.Model;
-
 namespace Drones
 {
     internal static class Program
@@ -14,15 +12,20 @@ namespace Drones
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            // Cr�ation de la flotte de drones
-            List<Drone> fleet= new List<Drone>();
-            Charger charger = new Charger();
-            fleet.Add(new Drone(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH/2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT/2)));
-            fleet.Add(new Drone(AirSpace.WIDTH / 3, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH / 2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT / 2)));
-            fleet.Add(new Drone(AirSpace.WIDTH / 4, AirSpace.HEIGHT / 2, "Joe", RandomHelper.GenerateNumber(0, Config.AIRSPACE_WIDTH / 2), RandomHelper.GenerateNumber(0, Config.AIRSPACE_HEIGHT / 2)));
+            // Création de la borne de recharge
+            Charger charger = new Charger(Config.AIRSPACE_WIDTH / 2, Config.AIRSPACE_HEIGHT / 2);
 
-            // D�marrage
+            // Création de la flotte de drones
+            List<Drone> fleet = new List<Drone>();
+            fleet.Add(new Drone(Config.AIRSPACE_WIDTH / 2, Config.AIRSPACE_HEIGHT / 2, "Joe", charger));
+
+            // Démarrage
             Application.Run(new AirSpace(fleet, charger));
         }
     }
+
+    // TODO 00: Implémenter les TODOs dans l'ordre de leur numéros
+    //          Faire un commit à chaque fois qu'un TODO a été fait.
+    //          Demander la solution si vous êtes bloqué.
+
 }
