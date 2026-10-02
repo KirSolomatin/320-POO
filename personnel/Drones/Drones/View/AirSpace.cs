@@ -16,11 +16,6 @@ namespace Drones
         public static List<Pizzeria> Pizzerias = new List<Pizzeria>();
         public static List<Customer> Customers = new List<Customer>();
 
-        Pizzeria pizzeria1 = new Pizzeria("Pizzeria1", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
-        Pizzeria pizzeria2 = new Pizzeria("Pizzeria2", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
-        Pizzeria pizzeria3 = new Pizzeria("Pizzeria3", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
-        Pizzeria pizzeria4 = new Pizzeria("Pizzeria4", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
-        Pizzeria pizzeria5 = new Pizzeria("Pizzeria5", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
         // Initialisation de l'espace a�rien avec un certain nombre de drones
         public AirSpace(List<Drone> fleet, Charger charger)
         {
@@ -34,6 +29,7 @@ namespace Drones
             _fleet = fleet;
             _charger = charger;
 
+            Pizzeria.GeneratePizzeria(5);
             Pizzerias = Pizzeria.pizzerias;
 
             Customer.GenerateClients(20);
@@ -53,7 +49,7 @@ namespace Drones
                 drone.Render(_airspace);
             }
 
-            foreach (Pizzeria pizzeria in Pizzerias)
+            foreach (Pizzeria pizzeria in Pizzeria.pizzerias)
             {
                 pizzeria.Render(_airspace);
             }

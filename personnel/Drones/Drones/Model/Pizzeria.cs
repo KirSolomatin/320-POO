@@ -28,7 +28,34 @@ namespace Drones
             this.posX = posX;
             this.posY = posY;
 
+            //Chaque fois quand une pizzeria a été générée on l'ajoute dans la liste 
             pizzerias.Add(this);
+        }
+
+        //Méthode permettant de générer plusieurs pizzerias
+        public static void GeneratePizzeria(int numberOfPizzerias)
+        {
+            for (int i = 0; i < numberOfPizzerias; i++)
+            {
+                Pizzeria pizzeria = new Pizzeria($"Pizzeria {i}", RandomHelpers.Next(Config.AIRSPACE_WIDTH), RandomHelpers.Next(Config.AIRSPACE_HEIGHT));
+            }
+        }
+
+        public static void RegisterPizzeria(Pizzeria pizzeria)
+        {
+            try
+            {
+                bool hasColision = false;
+
+                foreach (Pizzeria pizz in Pizzeria.pizzerias)
+                {
+                    pizz
+                }
+            }
+            catch
+            {
+                throw new Exception("Pizzeria existe déjà");
+            }
         }
 
         //Affiche une pizzeria et son nom en-desous
